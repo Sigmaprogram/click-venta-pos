@@ -1,14 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Users, UserPlus, CreditCard, Star, Eye, Edit, Trash2, Phone, Mail, Calendar } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Users,
+  UserPlus,
+  CreditCard,
+  Star,
+  Eye,
+  Edit,
+  Trash2,
+  Phone,
+  Mail,
+  Calendar,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -16,139 +40,57 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Progress } from "@/components/ui/progress"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Progress } from "@/components/ui/progress";
 
-const clientes = [
-  {
-    id: "1",
-    nombre: "Roberto Martínez",
-    email: "roberto.martinez@email.com",
-    telefono: "+1234567890",
-    direccion: "Av. Principal 123, Apt 4B",
-    fechaRegistro: "2024-01-15",
-    ultimaCompra: "2024-06-01",
-    totalCompras: 1250.5,
-    comprasCount: 45,
-    credito: 500.0,
-    creditoUsado: 150.0,
-    puntos: 1250,
-    nivel: "Gold",
-    estado: "Activo",
-    avatar: "RM",
-  },
-  {
-    id: "2",
-    nombre: "Ana Rodríguez",
-    email: "ana.rodriguez@email.com",
-    telefono: "+1234567891",
-    direccion: "Calle Secundaria 456",
-    fechaRegistro: "2024-02-20",
-    ultimaCompra: "2024-05-30",
-    totalCompras: 850.25,
-    comprasCount: 32,
-    credito: 300.0,
-    creditoUsado: 75.0,
-    puntos: 850,
-    nivel: "Silver",
-    estado: "Activo",
-    avatar: "AR",
-  },
-  {
-    id: "3",
-    nombre: "Carlos Fernández",
-    email: "carlos.fernandez@email.com",
-    telefono: "+1234567892",
-    direccion: "Plaza Mayor 789",
-    fechaRegistro: "2024-03-10",
-    ultimaCompra: "2024-04-15",
-    totalCompras: 320.75,
-    comprasCount: 12,
-    credito: 200.0,
-    creditoUsado: 200.0,
-    puntos: 320,
-    nivel: "Bronze",
-    estado: "Suspendido",
-    avatar: "CF",
-  },
-]
-
-const historialCompras = [
-  {
-    id: "V-001234",
-    cliente: "Roberto Martínez",
-    fecha: "2024-06-01",
-    productos: 8,
-    total: 45.5,
-    metodoPago: "Crédito",
-    puntos: 45,
-  },
-  {
-    id: "V-001235",
-    cliente: "Ana Rodríguez",
-    fecha: "2024-05-30",
-    productos: 5,
-    total: 28.75,
-    metodoPago: "Efectivo",
-    puntos: 28,
-  },
-  {
-    id: "V-001236",
-    cliente: "Roberto Martínez",
-    fecha: "2024-05-28",
-    productos: 12,
-    total: 67.2,
-    metodoPago: "Tarjeta",
-    puntos: 67,
-  },
-]
-
-const programaFidelizacion = {
-  niveles: [
-    { nombre: "Bronze", minimo: 0, descuento: 2, color: "bg-orange-100 text-orange-800" },
-    { nombre: "Silver", minimo: 500, descuento: 5, color: "bg-gray-100 text-gray-800" },
-    { nombre: "Gold", minimo: 1000, descuento: 8, color: "bg-yellow-100 text-yellow-800" },
-    { nombre: "Platinum", minimo: 2000, descuento: 12, color: "bg-purple-100 text-purple-800" },
-  ],
-  puntosXPeso: 1, // 1 punto por cada peso gastado
-  pesoXPunto: 0.01, // 1 punto = $0.01
-}
+import { clientes, historialCompras, programaFidelizacion } from "@/lib/data";
 
 export default function ClientesPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedNivel, setSelectedNivel] = useState("all")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedNivel, setSelectedNivel] = useState("all");
 
   const filteredClients = clientes.filter((client) => {
     const matchesSearch =
       client.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.telefono.includes(searchTerm)
-    const matchesNivel = selectedNivel === "all" || client.nivel === selectedNivel
-    return matchesSearch && matchesNivel
-  })
+      client.telefono.includes(searchTerm);
+    const matchesNivel =
+      selectedNivel === "all" || client.nivel === selectedNivel;
+    return matchesSearch && matchesNivel;
+  });
 
   const getEstadoBadge = (estado: string) => {
     if (estado === "Activo") {
-      return <Badge className="bg-green-100 text-green-800">Activo</Badge>
+      return <Badge className="bg-green-100 text-green-800">Activo</Badge>;
     }
-    return <Badge variant="destructive">Suspendido</Badge>
-  }
+    return <Badge variant="destructive">Suspendido</Badge>;
+  };
 
   const getNivelBadge = (nivel: string) => {
-    const nivelInfo = programaFidelizacion.niveles.find((n) => n.nombre === nivel)
-    return <Badge className={nivelInfo?.color}>{nivel}</Badge>
-  }
+    const nivelInfo = programaFidelizacion.niveles.find(
+      (n) => n.nombre === nivel
+    );
+    return <Badge className={nivelInfo?.color}>{nivel}</Badge>;
+  };
 
   const getCreditoProgress = (usado: number, total: number) => {
-    return (usado / total) * 100
-  }
+    return (usado / total) * 100;
+  };
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Gestión de Clientes</h2>
+        <h2 className="text-3xl font-bold tracking-tight">
+          Gestión de Clientes
+        </h2>
         <div className="flex items-center space-x-2">
           <Dialog>
             <DialogTrigger asChild>
@@ -161,7 +103,8 @@ export default function ClientesPage() {
               <DialogHeader>
                 <DialogTitle>Registrar Nuevo Cliente</DialogTitle>
                 <DialogDescription>
-                  Complete la información del cliente para registrarlo en el sistema.
+                  Complete la información del cliente para registrarlo en el
+                  sistema.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
@@ -169,31 +112,53 @@ export default function ClientesPage() {
                   <Label htmlFor="nombre" className="text-right">
                     Nombre
                   </Label>
-                  <Input id="nombre" placeholder="Nombre completo" className="col-span-3" />
+                  <Input
+                    id="nombre"
+                    placeholder="Nombre completo"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="email" className="text-right">
                     Email
                   </Label>
-                  <Input id="email" type="email" placeholder="cliente@email.com" className="col-span-3" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="cliente@email.com"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="telefono" className="text-right">
                     Teléfono
                   </Label>
-                  <Input id="telefono" placeholder="+1234567890" className="col-span-3" />
+                  <Input
+                    id="telefono"
+                    placeholder="+1234567890"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="direccion" className="text-right">
                     Dirección
                   </Label>
-                  <Input id="direccion" placeholder="Dirección completa" className="col-span-3" />
+                  <Input
+                    id="direccion"
+                    placeholder="Dirección completa"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="credito" className="text-right">
                     Límite Crédito
                   </Label>
-                  <Input id="credito" type="number" placeholder="0.00" className="col-span-3" />
+                  <Input
+                    id="credito"
+                    type="number"
+                    placeholder="0.00"
+                    className="col-span-3"
+                  />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
@@ -209,44 +174,58 @@ export default function ClientesPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clientes</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Clientes
+            </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{clientes.length}</div>
-            <p className="text-xs text-muted-foreground">Clientes registrados</p>
+            <p className="text-xs text-muted-foreground">
+              Clientes registrados
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Clientes Activos</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Clientes Activos
+            </CardTitle>
             <Users className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
               {clientes.filter((c) => c.estado === "Activo").length}
             </div>
-            <p className="text-xs text-muted-foreground">Con compras recientes</p>
+            <p className="text-xs text-muted-foreground">
+              Con compras recientes
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Crédito Otorgado</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Crédito Otorgado
+            </CardTitle>
             <CreditCard className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">
               ${clientes.reduce((sum, c) => sum + c.credito, 0).toFixed(2)}
             </div>
-            <p className="text-xs text-muted-foreground">Límite total disponible</p>
+            <p className="text-xs text-muted-foreground">
+              Límite total disponible
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Puntos Acumulados</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Puntos Acumulados
+            </CardTitle>
             <Star className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
@@ -270,7 +249,9 @@ export default function ClientesPage() {
           <Card>
             <CardHeader>
               <CardTitle>Lista de Clientes</CardTitle>
-              <CardDescription>Gestione todos los clientes registrados en el sistema</CardDescription>
+              <CardDescription>
+                Gestione todos los clientes registrados en el sistema
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center space-x-2 mb-4">
@@ -315,7 +296,9 @@ export default function ClientesPage() {
                       <TableCell>
                         <div className="flex items-center space-x-3">
                           <Avatar>
-                            <AvatarImage src={`/placeholder.svg?height=32&width=32`} />
+                            <AvatarImage
+                              src={`/placeholder.svg?height=32&width=32`}
+                            />
                             <AvatarFallback>{cliente.avatar}</AvatarFallback>
                           </Avatar>
                           <div>
@@ -342,16 +325,27 @@ export default function ClientesPage() {
                       <TableCell>{getNivelBadge(cliente.nivel)}</TableCell>
                       <TableCell>
                         <div>
-                          <div className="font-medium">${cliente.totalCompras.toFixed(2)}</div>
-                          <div className="text-sm text-muted-foreground">{cliente.comprasCount} compras</div>
+                          <div className="font-medium">
+                            ${cliente.totalCompras.toFixed(2)}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {cliente.comprasCount} compras
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
                           <div className="text-sm">
-                            ${cliente.creditoUsado.toFixed(2)} / ${cliente.credito.toFixed(2)}
+                            ${cliente.creditoUsado.toFixed(2)} / $
+                            {cliente.credito.toFixed(2)}
                           </div>
-                          <Progress value={getCreditoProgress(cliente.creditoUsado, cliente.credito)} className="h-1" />
+                          <Progress
+                            value={getCreditoProgress(
+                              cliente.creditoUsado,
+                              cliente.credito
+                            )}
+                            className="h-1"
+                          />
                         </div>
                       </TableCell>
                       <TableCell>
@@ -387,7 +381,9 @@ export default function ClientesPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Programa de Fidelización</CardTitle>
-                <CardDescription>Configuración de niveles y beneficios</CardDescription>
+                <CardDescription>
+                  Configuración de niveles y beneficios
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -396,15 +392,25 @@ export default function ClientesPage() {
                       <CardContent className="p-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
-                            <Badge className={nivel.color}>{nivel.nombre}</Badge>
+                            <Badge className={nivel.color}>
+                              {nivel.nombre}
+                            </Badge>
                             <div>
-                              <div className="font-medium">Desde ${nivel.minimo}</div>
-                              <div className="text-sm text-muted-foreground">{nivel.descuento}% descuento</div>
+                              <div className="font-medium">
+                                Desde ${nivel.minimo}
+                              </div>
+                              <div className="text-sm text-muted-foreground">
+                                {nivel.descuento}% descuento
+                              </div>
                             </div>
                           </div>
                           <div className="text-right">
                             <div className="font-medium">
-                              {clientes.filter((c) => c.nivel === nivel.nombre).length} clientes
+                              {
+                                clientes.filter((c) => c.nivel === nivel.nombre)
+                                  .length
+                              }{" "}
+                              clientes
                             </div>
                           </div>
                         </div>
@@ -418,24 +424,31 @@ export default function ClientesPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Estadísticas de Fidelización</CardTitle>
-                <CardDescription>Distribución de clientes por nivel</CardDescription>
+                <CardDescription>
+                  Distribución de clientes por nivel
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {programaFidelizacion.niveles.map((nivel) => {
-                    const clientesEnNivel = clientes.filter((c) => c.nivel === nivel.nombre).length
-                    const porcentaje = (clientesEnNivel / clientes.length) * 100
+                    const clientesEnNivel = clientes.filter(
+                      (c) => c.nivel === nivel.nombre
+                    ).length;
+                    const porcentaje =
+                      (clientesEnNivel / clientes.length) * 100;
                     return (
                       <div key={nivel.nombre} className="space-y-2">
                         <div className="flex justify-between">
-                          <span className="text-sm font-medium">{nivel.nombre}</span>
+                          <span className="text-sm font-medium">
+                            {nivel.nombre}
+                          </span>
                           <span className="text-sm text-muted-foreground">
                             {clientesEnNivel} ({porcentaje.toFixed(1)}%)
                           </span>
                         </div>
                         <Progress value={porcentaje} className="h-2" />
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </CardContent>
@@ -445,17 +458,28 @@ export default function ClientesPage() {
           <Card>
             <CardHeader>
               <CardTitle>Configuración del Programa</CardTitle>
-              <CardDescription>Ajuste los parámetros del programa de fidelización</CardDescription>
+              <CardDescription>
+                Ajuste los parámetros del programa de fidelización
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Puntos por peso gastado</Label>
-                  <Input type="number" value={programaFidelizacion.puntosXPeso} readOnly />
+                  <Input
+                    type="number"
+                    value={programaFidelizacion.puntosXPeso}
+                    readOnly
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Valor del punto (en pesos)</Label>
-                  <Input type="number" step="0.01" value={programaFidelizacion.pesoXPunto} readOnly />
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={programaFidelizacion.pesoXPunto}
+                    readOnly
+                  />
                 </div>
               </div>
             </CardContent>
@@ -466,7 +490,9 @@ export default function ClientesPage() {
           <Card>
             <CardHeader>
               <CardTitle>Gestión de Crédito</CardTitle>
-              <CardDescription>Administre los créditos otorgados a los clientes</CardDescription>
+              <CardDescription>
+                Administre los créditos otorgados a los clientes
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -485,35 +511,54 @@ export default function ClientesPage() {
                   {clientes
                     .filter((c) => c.credito > 0)
                     .map((cliente) => {
-                      const disponible = cliente.credito - cliente.creditoUsado
-                      const utilizacion = getCreditoProgress(cliente.creditoUsado, cliente.credito)
+                      const disponible = cliente.credito - cliente.creditoUsado;
+                      const utilizacion = getCreditoProgress(
+                        cliente.creditoUsado,
+                        cliente.credito
+                      );
                       return (
                         <TableRow key={cliente.id}>
                           <TableCell>
                             <div className="flex items-center space-x-3">
                               <Avatar>
-                                <AvatarImage src={`/placeholder.svg?height=32&width=32`} />
-                                <AvatarFallback>{cliente.avatar}</AvatarFallback>
+                                <AvatarImage
+                                  src={`/placeholder.svg?height=32&width=32`}
+                                />
+                                <AvatarFallback>
+                                  {cliente.avatar}
+                                </AvatarFallback>
                               </Avatar>
-                              <div className="font-medium">{cliente.nombre}</div>
+                              <div className="font-medium">
+                                {cliente.nombre}
+                              </div>
                             </div>
                           </TableCell>
                           <TableCell>${cliente.credito.toFixed(2)}</TableCell>
-                          <TableCell>${cliente.creditoUsado.toFixed(2)}</TableCell>
+                          <TableCell>
+                            ${cliente.creditoUsado.toFixed(2)}
+                          </TableCell>
                           <TableCell>${disponible.toFixed(2)}</TableCell>
                           <TableCell>
                             <div className="space-y-1">
-                              <div className="text-sm">{utilizacion.toFixed(1)}%</div>
+                              <div className="text-sm">
+                                {utilizacion.toFixed(1)}%
+                              </div>
                               <Progress value={utilizacion} className="h-1" />
                             </div>
                           </TableCell>
                           <TableCell>
                             {utilizacion >= 100 ? (
-                              <Badge variant="destructive">Límite Alcanzado</Badge>
+                              <Badge variant="destructive">
+                                Límite Alcanzado
+                              </Badge>
                             ) : utilizacion >= 80 ? (
-                              <Badge className="bg-orange-100 text-orange-800">Alto</Badge>
+                              <Badge className="bg-orange-100 text-orange-800">
+                                Alto
+                              </Badge>
                             ) : (
-                              <Badge className="bg-green-100 text-green-800">Normal</Badge>
+                              <Badge className="bg-green-100 text-green-800">
+                                Normal
+                              </Badge>
                             )}
                           </TableCell>
                           <TableCell>
@@ -527,7 +572,7 @@ export default function ClientesPage() {
                             </div>
                           </TableCell>
                         </TableRow>
-                      )
+                      );
                     })}
                 </TableBody>
               </Table>
@@ -539,7 +584,9 @@ export default function ClientesPage() {
           <Card>
             <CardHeader>
               <CardTitle>Historial de Compras</CardTitle>
-              <CardDescription>Registro de todas las compras realizadas por los clientes</CardDescription>
+              <CardDescription>
+                Registro de todas las compras realizadas por los clientes
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -564,13 +611,20 @@ export default function ClientesPage() {
                       <TableCell>{compra.productos} items</TableCell>
                       <TableCell>${compra.total.toFixed(2)}</TableCell>
                       <TableCell>
-                        <Badge variant={compra.metodoPago === "Crédito" ? "secondary" : "default"}>
+                        <Badge
+                          variant={
+                            compra.metodoPago === "Crédito"
+                              ? "secondary"
+                              : "default"
+                          }
+                        >
                           {compra.metodoPago}
                         </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center">
-                          <Star className="h-4 w-4 text-yellow-500 mr-1" />+{compra.puntos}
+                          <Star className="h-4 w-4 text-yellow-500 mr-1" />+
+                          {compra.puntos}
                         </div>
                       </TableCell>
                       <TableCell>
@@ -587,5 +641,5 @@ export default function ClientesPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

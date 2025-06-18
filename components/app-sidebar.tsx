@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type * as React from "react"
+import type * as React from "react";
 import {
   BarChart3,
   Building2,
@@ -19,7 +19,7 @@ import {
   Smartphone,
   Scale,
   MapPin,
-} from "lucide-react"
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -34,10 +34,15 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible"
-import Link from "next/link"
+} from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import Link from "next/link";
 
 // Datos del menú
 const data = {
@@ -178,43 +183,43 @@ const data = {
     },
   ],
   navAdditional: [
-    {
-      title: "Módulos Adicionales",
-      items: [
-        {
-          title: "Seguridad",
-          url: "/seguridad",
-          icon: Shield,
-        },
-        {
-          title: "Auditoría",
-          url: "/auditoria",
-          icon: FileText,
-        },
-        {
-          title: "Horarios",
-          url: "/horarios",
-          icon: Clock,
-        },
-        {
-          title: "App Móvil",
-          url: "/movil",
-          icon: Smartphone,
-        },
-        {
-          title: "Balanzas",
-          url: "/balanzas",
-          icon: Scale,
-        },
-        {
-          title: "Delivery",
-          url: "/delivery",
-          icon: MapPin,
-        },
-      ],
-    },
+    // {
+    //   title: "Módulos Adicionales",
+    //   items: [
+    //     {
+    //       title: "Seguridad",
+    //       url: "/seguridad",
+    //       icon: Shield,
+    //     },
+    //     {
+    //       title: "Auditoría",
+    //       url: "/auditoria",
+    //       icon: FileText,
+    //     },
+    //     {
+    //       title: "Horarios",
+    //       url: "/horarios",
+    //       icon: Clock,
+    //     },
+    //     {
+    //       title: "App Móvil",
+    //       url: "/movil",
+    //       icon: Smartphone,
+    //     },
+    //     {
+    //       title: "Balanzas",
+    //       url: "/balanzas",
+    //       icon: Scale,
+    //     },
+    //     {
+    //       title: "Delivery",
+    //       url: "/delivery",
+    //       icon: MapPin,
+    //     },
+    //   ],
+    // },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -242,7 +247,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel>Módulos Principales</SidebarGroupLabel>
           <SidebarMenu>
             {data.navMain.map((item) => (
-              <Collapsible key={item.title} asChild defaultOpen={item.title === "Dashboard"}>
+              <Collapsible
+                key={item.title}
+                asChild
+                defaultOpen={item.title === "Dashboard"}
+              >
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild tooltip={item.title}>
                     <Link href={item.url}>
@@ -287,10 +296,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
 
+        {/* Las Funciones avanzadas estan clausuradas hasta nuevo aviso */}
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-          <SidebarGroupLabel>Funciones Avanzadas</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>Funciones Avanzadas</SidebarGroupLabel> */}
           <SidebarMenu>
-            {data.navAdditional[0].items.map((item) => (
+            {/* {data.navAdditional[0].items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild tooltip={item.title}>
                   <Link href={item.url}>
@@ -299,7 +309,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            ))}
+            ))} */}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
@@ -314,7 +324,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{data.user.name}</span>
+                    <span className="truncate font-semibold">
+                      {data.user.name}
+                    </span>
                     <span className="truncate text-xs">{data.user.email}</span>
                   </div>
                   <ChevronUp className="ml-auto size-4" />
@@ -341,5 +353,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

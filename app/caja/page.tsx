@@ -1,12 +1,25 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Wallet,
   DollarSign,
@@ -17,7 +30,7 @@ import {
   Unlock,
   AlertTriangle,
   CheckCircle,
-} from "lucide-react"
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -25,135 +38,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const cajas = [
-  {
-    id: "1",
-    nombre: "Caja Principal",
-    usuario: "María González",
-    estado: "Abierta",
-    apertura: "08:00",
-    montoApertura: 500.0,
-    ventasEfectivo: 1250.5,
-    ventasTarjeta: 850.75,
-    ventasTransferencia: 320.25,
-    gastos: 45.0,
-    montoActual: 1705.5,
-    diferencia: 0.0,
-  },
-  {
-    id: "2",
-    nombre: "Caja Secundaria",
-    usuario: "Carlos Ruiz",
-    estado: "Abierta",
-    apertura: "08:00",
-    montoApertura: 300.0,
-    ventasEfectivo: 890.25,
-    ventasTarjeta: 650.5,
-    ventasTransferencia: 180.75,
-    gastos: 25.0,
-    montoActual: 1165.25,
-    diferencia: 0.0,
-  },
-  {
-    id: "3",
-    nombre: "Caja Express",
-    usuario: "Laura Fernández",
-    estado: "Cerrada",
-    apertura: "16:00",
-    cierre: "00:00",
-    montoApertura: 200.0,
-    ventasEfectivo: 450.75,
-    ventasTarjeta: 320.25,
-    ventasTransferencia: 95.5,
-    gastos: 15.0,
-    montoActual: 635.75,
-    diferencia: -5.0,
-  },
-]
-
-const movimientosCaja = [
-  {
-    id: "1",
-    tipo: "Entrada",
-    concepto: "Venta #001234",
-    monto: 45.5,
-    metodoPago: "Efectivo",
-    hora: "14:30",
-    usuario: "María González",
-    caja: "Caja Principal",
-  },
-  {
-    id: "2",
-    tipo: "Salida",
-    concepto: "Cambio cliente",
-    monto: 5.5,
-    metodoPago: "Efectivo",
-    hora: "14:25",
-    usuario: "María González",
-    caja: "Caja Principal",
-  },
-  {
-    id: "3",
-    tipo: "Entrada",
-    concepto: "Venta #001235",
-    monto: 28.75,
-    metodoPago: "Efectivo",
-    hora: "14:20",
-    usuario: "Carlos Ruiz",
-    caja: "Caja Secundaria",
-  },
-  {
-    id: "4",
-    tipo: "Salida",
-    concepto: "Gasto menor - Limpieza",
-    monto: 15.0,
-    metodoPago: "Efectivo",
-    hora: "13:45",
-    usuario: "Laura Fernández",
-    caja: "Caja Express",
-  },
-]
-
-const arqueosDiarios = [
-  {
-    fecha: "2024-06-01",
-    caja: "Caja Principal",
-    usuario: "María González",
-    montoSistema: 1705.5,
-    montoFisico: 1705.5,
-    diferencia: 0.0,
-    estado: "Cuadrada",
-    observaciones: "",
-  },
-  {
-    fecha: "2024-06-01",
-    caja: "Caja Secundaria",
-    usuario: "Carlos Ruiz",
-    montoSistema: 1165.25,
-    montoFisico: 1165.25,
-    diferencia: 0.0,
-    estado: "Cuadrada",
-    observaciones: "",
-  },
-  {
-    fecha: "2024-05-31",
-    caja: "Caja Express",
-    usuario: "Laura Fernández",
-    montoSistema: 635.75,
-    montoFisico: 630.75,
-    diferencia: -5.0,
-    estado: "Diferencia",
-    observaciones: "Faltante menor, posible error en cambio",
-  },
-]
+// Importing mock data
+import { cajas, movimientosCaja, arqueosDiarios } from "@/lib/data";
 
 export default function CajaPage() {
-  const [selectedCaja, setSelectedCaja] = useState("1")
+  const [selectedCaja, setSelectedCaja] = useState("1");
 
   const getEstadoBadge = (estado: string) => {
     const variants = {
@@ -181,24 +81,28 @@ export default function CajaPage() {
           Diferencia
         </Badge>
       ),
-    }
-    return variants[estado as keyof typeof variants] || <Badge>{estado}</Badge>
-  }
+    };
+    return variants[estado as keyof typeof variants] || <Badge>{estado}</Badge>;
+  };
 
   const getTipoIcon = (tipo: string) => {
     return tipo === "Entrada" ? (
       <TrendingUp className="h-4 w-4 text-green-500" />
     ) : (
       <TrendingDown className="h-4 w-4 text-red-500" />
-    )
-  }
+    );
+  };
 
   const totalVentas = cajas.reduce(
-    (sum, caja) => sum + caja.ventasEfectivo + caja.ventasTarjeta + caja.ventasTransferencia,
-    0,
-  )
+    (sum, caja) =>
+      sum + caja.ventasEfectivo + caja.ventasTarjeta + caja.ventasTransferencia,
+    0
+  );
 
-  const totalEfectivo = cajas.reduce((sum, caja) => sum + caja.ventasEfectivo, 0)
+  const totalEfectivo = cajas.reduce(
+    (sum, caja) => sum + caja.ventasEfectivo,
+    0
+  );
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
@@ -216,7 +120,8 @@ export default function CajaPage() {
               <DialogHeader>
                 <DialogTitle>Realizar Arqueo de Caja</DialogTitle>
                 <DialogDescription>
-                  Registre el conteo físico del dinero en caja para verificar diferencias.
+                  Registre el conteo físico del dinero en caja para verificar
+                  diferencias.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
@@ -243,19 +148,34 @@ export default function CajaPage() {
                   <Label htmlFor="montoSistema" className="text-right">
                     Monto Sistema
                   </Label>
-                  <Input id="montoSistema" value="$1,705.50" readOnly className="col-span-3" />
+                  <Input
+                    id="montoSistema"
+                    value="$1,705.50"
+                    readOnly
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="montoFisico" className="text-right">
                     Monto Físico
                   </Label>
-                  <Input id="montoFisico" type="number" step="0.01" placeholder="0.00" className="col-span-3" />
+                  <Input
+                    id="montoFisico"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="observaciones" className="text-right">
                     Observaciones
                   </Label>
-                  <Textarea id="observaciones" placeholder="Observaciones del arqueo..." className="col-span-3" />
+                  <Textarea
+                    id="observaciones"
+                    placeholder="Observaciones del arqueo..."
+                    className="col-span-3"
+                  />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
@@ -271,36 +191,48 @@ export default function CajaPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Ventas Hoy</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Ventas Hoy
+            </CardTitle>
             <DollarSign className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">${totalVentas.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-green-600">
+              ${totalVentas.toFixed(2)}
+            </div>
             <p className="text-xs text-muted-foreground">Todas las cajas</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Efectivo en Cajas</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Efectivo en Cajas
+            </CardTitle>
             <Wallet className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">${totalEfectivo.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-blue-600">
+              ${totalEfectivo.toFixed(2)}
+            </div>
             <p className="text-xs text-muted-foreground">Solo efectivo</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Cajas Abiertas</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Cajas Abiertas
+            </CardTitle>
             <Unlock className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-600">
               {cajas.filter((c) => c.estado === "Abierta").length}
             </div>
-            <p className="text-xs text-muted-foreground">De {cajas.length} totales</p>
+            <p className="text-xs text-muted-foreground">
+              De {cajas.length} totales
+            </p>
           </CardContent>
         </Card>
 
@@ -311,7 +243,10 @@ export default function CajaPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
-              ${Math.abs(cajas.reduce((sum, c) => sum + (c.diferencia || 0), 0)).toFixed(2)}
+              $
+              {Math.abs(
+                cajas.reduce((sum, c) => sum + (c.diferencia || 0), 0)
+              ).toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">Total diferencias</p>
           </CardContent>
@@ -330,7 +265,9 @@ export default function CajaPage() {
           <Card>
             <CardHeader>
               <CardTitle>Estado Actual de las Cajas</CardTitle>
-              <CardDescription>Monitoreo en tiempo real del estado de todas las cajas</CardDescription>
+              <CardDescription>
+                Monitoreo en tiempo real del estado de todas las cajas
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -351,7 +288,9 @@ export default function CajaPage() {
                 <TableBody>
                   {cajas.map((caja) => (
                     <TableRow key={caja.id}>
-                      <TableCell className="font-medium">{caja.nombre}</TableCell>
+                      <TableCell className="font-medium">
+                        {caja.nombre}
+                      </TableCell>
                       <TableCell>{caja.usuario}</TableCell>
                       <TableCell>{getEstadoBadge(caja.estado)}</TableCell>
                       <TableCell>{caja.apertura}</TableCell>
@@ -361,9 +300,13 @@ export default function CajaPage() {
                       <TableCell>${caja.montoActual.toFixed(2)}</TableCell>
                       <TableCell>
                         {caja.diferencia === 0 ? (
-                          <Badge className="bg-green-100 text-green-800">$0.00</Badge>
+                          <Badge className="bg-green-100 text-green-800">
+                            $0.00
+                          </Badge>
                         ) : (
-                          <Badge variant="destructive">${caja.diferencia.toFixed(2)}</Badge>
+                          <Badge variant="destructive">
+                            ${caja.diferencia.toFixed(2)}
+                          </Badge>
                         )}
                       </TableCell>
                       <TableCell>
@@ -394,7 +337,9 @@ export default function CajaPage() {
           <Card>
             <CardHeader>
               <CardTitle>Movimientos de Caja</CardTitle>
-              <CardDescription>Registro detallado de todas las transacciones del día</CardDescription>
+              <CardDescription>
+                Registro detallado de todas las transacciones del día
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-center space-x-2 mb-4">
@@ -439,19 +384,38 @@ export default function CajaPage() {
                       <TableCell>
                         <div className="flex items-center space-x-2">
                           {getTipoIcon(movimiento.tipo)}
-                          <span className={movimiento.tipo === "Entrada" ? "text-green-600" : "text-red-600"}>
+                          <span
+                            className={
+                              movimiento.tipo === "Entrada"
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }
+                          >
                             {movimiento.tipo}
                           </span>
                         </div>
                       </TableCell>
                       <TableCell>{movimiento.concepto}</TableCell>
                       <TableCell>
-                        <span className={movimiento.tipo === "Entrada" ? "text-green-600" : "text-red-600"}>
-                          {movimiento.tipo === "Entrada" ? "+" : "-"}${movimiento.monto.toFixed(2)}
+                        <span
+                          className={
+                            movimiento.tipo === "Entrada"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }
+                        >
+                          {movimiento.tipo === "Entrada" ? "+" : "-"}$
+                          {movimiento.monto.toFixed(2)}
                         </span>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={movimiento.metodoPago === "Efectivo" ? "default" : "secondary"}>
+                        <Badge
+                          variant={
+                            movimiento.metodoPago === "Efectivo"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
                           {movimiento.metodoPago}
                         </Badge>
                       </TableCell>
@@ -470,7 +434,9 @@ export default function CajaPage() {
           <Card>
             <CardHeader>
               <CardTitle>Historial de Arqueos</CardTitle>
-              <CardDescription>Registro de todos los arqueos realizados</CardDescription>
+              <CardDescription>
+                Registro de todos los arqueos realizados
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -495,12 +461,20 @@ export default function CajaPage() {
                       <TableCell>${arqueo.montoSistema.toFixed(2)}</TableCell>
                       <TableCell>${arqueo.montoFisico.toFixed(2)}</TableCell>
                       <TableCell>
-                        <span className={arqueo.diferencia === 0 ? "text-green-600" : "text-red-600"}>
+                        <span
+                          className={
+                            arqueo.diferencia === 0
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }
+                        >
                           ${arqueo.diferencia.toFixed(2)}
                         </span>
                       </TableCell>
                       <TableCell>{getEstadoBadge(arqueo.estado)}</TableCell>
-                      <TableCell className="max-w-xs truncate">{arqueo.observaciones || "-"}</TableCell>
+                      <TableCell className="max-w-xs truncate">
+                        {arqueo.observaciones || "-"}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -513,7 +487,9 @@ export default function CajaPage() {
           <Card>
             <CardHeader>
               <CardTitle>Cierre Diario de Cajas</CardTitle>
-              <CardDescription>Resumen consolidado del día y cierre de operaciones</CardDescription>
+              <CardDescription>
+                Resumen consolidado del día y cierre de operaciones
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2">
@@ -525,30 +501,43 @@ export default function CajaPage() {
                     <div className="space-y-4">
                       <div className="flex justify-between">
                         <span>Total Ventas Efectivo:</span>
-                        <span className="font-medium">${totalEfectivo.toFixed(2)}</span>
+                        <span className="font-medium">
+                          ${totalEfectivo.toFixed(2)}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Total Ventas Tarjeta:</span>
                         <span className="font-medium">
-                          ${cajas.reduce((sum, c) => sum + c.ventasTarjeta, 0).toFixed(2)}
+                          $
+                          {cajas
+                            .reduce((sum, c) => sum + c.ventasTarjeta, 0)
+                            .toFixed(2)}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Total Transferencias:</span>
                         <span className="font-medium">
-                          ${cajas.reduce((sum, c) => sum + c.ventasTransferencia, 0).toFixed(2)}
+                          $
+                          {cajas
+                            .reduce((sum, c) => sum + c.ventasTransferencia, 0)
+                            .toFixed(2)}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Total Gastos:</span>
                         <span className="font-medium text-red-600">
-                          -${cajas.reduce((sum, c) => sum + c.gastos, 0).toFixed(2)}
+                          -$
+                          {cajas
+                            .reduce((sum, c) => sum + c.gastos, 0)
+                            .toFixed(2)}
                         </span>
                       </div>
                       <hr />
                       <div className="flex justify-between font-bold text-lg">
                         <span>Total General:</span>
-                        <span className="text-green-600">${totalVentas.toFixed(2)}</span>
+                        <span className="text-green-600">
+                          ${totalVentas.toFixed(2)}
+                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -556,7 +545,9 @@ export default function CajaPage() {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-lg">Acciones de Cierre</CardTitle>
+                    <CardTitle className="text-lg">
+                      Acciones de Cierre
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -585,5 +576,5 @@ export default function CajaPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
